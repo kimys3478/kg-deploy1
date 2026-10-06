@@ -22,25 +22,32 @@ const browser = await chromium.launch();
   await page.setContent(`<!doctype html><html><head><base href="${BASE}">
     <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@900&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
     <style>
+      /* 메신저가 가운데 630×630만 잘라 보여줘도 원석과 글자가 모두 남도록 가운데 정렬 */
       @font-face { font-family: "HG Cosmos"; src: url("fonts/HG-Cosmos.otf") format("opentype"); }
       html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; background: #050505; }
-      .bg { position: absolute; inset: 0; background: url("assets/og-bg.png") 78% 12% / cover no-repeat; }
-      .shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(5,5,5,.92) 0%, rgba(5,5,5,.75) 38%, rgba(5,5,5,0) 58%); }
-      .text { position: absolute; left: 64px; top: 0; bottom: 0; width: 520px; display: flex; flex-direction: column; justify-content: center; gap: 22px; color: #f4f1ea; }
-      .meta { font: 400 15px/1.6 "JetBrains Mono", monospace; letter-spacing: .06em; color: #ffb347; margin: 0; }
-      .title { font: 900 96px/.9 "Archivo", sans-serif; letter-spacing: -.04em; margin: 0; }
-      .kr { font: 700 30px/1.35 "HG Cosmos", "Noto Sans KR", sans-serif; margin: 0; }
-      .layers { font: 400 14px "JetBrains Mono", monospace; letter-spacing: .1em; color: rgba(244,241,234,.65); margin: 0;
-        padding-top: 18px; border-top: 1px solid rgba(244,241,234,.25); width: 440px; }
+      .bg { position: absolute; inset: 0; background: url("assets/og-bg-center.png") 50% 2% / cover no-repeat; }
+      .shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(5,5,5,.55) 0%, rgba(5,5,5,0) 14%, rgba(5,5,5,0) 66%, rgba(5,5,5,.9) 80%, #050505 100%); }
+      .meta { position: absolute; top: 22px; left: 0; right: 0; text-align: center; margin: 0;
+        font: 400 13px "JetBrains Mono", monospace; letter-spacing: .08em; color: #ffb347; text-shadow: 0 1px 8px #000; }
+      .text { position: absolute; left: 0; right: 0; bottom: 34px; display: flex; flex-direction: column; align-items: center; gap: 12px; color: #f4f1ea; text-align: center; }
+      .title { font: 900 58px/.95 "Archivo", sans-serif; letter-spacing: -.035em; margin: 0; text-shadow: 0 2px 20px rgba(0,0,0,.8); }
+      .kr { font: 700 25px/1.3 "HG Cosmos", "Noto Sans KR", sans-serif; margin: 0; }
+      .layers { font: 400 12px "JetBrains Mono", monospace; letter-spacing: .12em; color: rgba(244,241,234,.6); margin: 0; }
     </style></head><body>
       <div class="bg"></div><div class="shade"></div>
+      <p class="meta">SPECIMEN No. KG-0001 · 37°29'06.7"N 126°59'44.5"E</p>
       <div class="text">
-        <p class="meta">SPECIMEN No. KG-0001<br>37°29'06.7"N 126°59'44.5"E</p>
-        <h1 class="title">KIGLE<br>Excavation</h1>
+        <h1 class="title">KIGLE Excavation</h1>
         <p class="kr">기록되지 않은 원석이 발견되었다.</p>
         <p class="layers">LAYER 01–08 · KIGLE &amp; GLOBAL TEAM</p>
       </div>
     </body></html>`, { waitUntil: "networkidle" });
+  // 가운데 정사각형(630×630) 밖으로 글자가 나가는지 확인
+  const overflow = await page.evaluate(() => [...document.querySelectorAll(".meta, .title, .kr, .layers")].map(el => {
+    const r = document.createRange(); r.selectNodeContents(el); const b = r.getBoundingClientRect();
+    return { text: el.textContent.slice(0, 20), left: Math.round(b.left), right: Math.round(b.right), safe: b.left >= 285 && b.right <= 915 };
+  }));
+  console.log(overflow);
   await page.evaluate(() => document.fonts.ready);
   await page.waitForTimeout(500);
   await page.screenshot({ path: path.join(root, "og-image.jpg"), type: "jpeg", quality: 90 });
