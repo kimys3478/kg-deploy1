@@ -1,6 +1,7 @@
 // 링크 공유용 이미지 만들기
-//  1) og-image.jpg  : assets/og-bg.png(이미지 모델 생성) 위에 제목·좌표·문구를 얹어 1200×630으로
-//  2) 파비콘        : assets/favicon-src.png → favicon.ico(16·32·48), favicon-32.png, apple-touch-icon.png(180), icon-512.png
+//  1) og-image.jpg         : 대표 OG 이미지 1200×630 — assets/og-bg.png 위에 왼쪽 제목 구성
+//  2) og-image-square.jpg  : 정사각형 1200×1200 — assets/og-bg-center.png 위에 가운데 정렬 구성
+//  3) 파비콘               : assets/favicon-src.png → favicon.ico(16·32·48), favicon-32.png, apple-touch-icon.png(180), icon-512.png
 // 사용법: 미리보기 서버(localhost:5173)를 켠 상태에서  node scripts/build-share-assets.mjs
 import { createRequire } from "node:module";
 import { execSync } from "node:child_process";
@@ -15,45 +16,56 @@ const BASE = "http://localhost:5173/";
 
 const browser = await chromium.launch();
 
-/* ---------- 1. OG 이미지 ---------- */
-{
-  const page = await browser.newPage({ viewport: { width: 1200, height: 630 }, deviceScaleFactor: 1 });
+/* ---------- 1·2. OG 이미지 ---------- */
+const HEAD = `<base href="${BASE}">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@900&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <style>
+    @font-face { font-family: "HG Cosmos"; src: url("fonts/HG-Cosmos.otf") format("opentype"); }
+    html, body { margin: 0; overflow: hidden; background: #050505; color: #f4f1ea; }
+    .bg, .shade { position: absolute; inset: 0; }
+    p, h1 { margin: 0; }
+    .meta { font: 400 15px/1.6 "JetBrains Mono", monospace; letter-spacing: .06em; color: #ffb347; }
+    .title { font: 900 96px/.9 "Archivo", sans-serif; letter-spacing: -.04em; }
+    .kr { font: 700 30px/1.35 "HG Cosmos", "Noto Sans KR", sans-serif; }
+    .layers { font: 400 14px "JetBrains Mono", monospace; letter-spacing: .1em; color: rgba(244,241,234,.65); }
+  </style>`;
+const TEXT = {
+  meta: `SPECIMEN No. KG-0001`, coord: `37°29'06.7"N 126°59'44.5"E`,
+  kr: "기록되지 않은 원석이 발견되었다.", layers: "LAYER 01–08 · KIGLE &amp; GLOBAL TEAM",
+};
+
+async function compose(file, width, height, body) {
+  const page = await browser.newPage({ viewport: { width, height }, deviceScaleFactor: 1 });
   await page.goto(BASE + "fonts/"); // 같은 출처의 HTML 페이지(폴더 목록)를 열어 폰트·이미지를 상대 경로로 사용
-  await page.setContent(`<!doctype html><html><head><base href="${BASE}">
-    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@900&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
-    <style>
-      /* 메신저가 가운데 630×630만 잘라 보여줘도 원석과 글자가 모두 남도록 가운데 정렬 */
-      @font-face { font-family: "HG Cosmos"; src: url("fonts/HG-Cosmos.otf") format("opentype"); }
-      html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; background: #050505; }
-      .bg { position: absolute; inset: 0; background: url("assets/og-bg-center.png") 50% 2% / cover no-repeat; }
-      .shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(5,5,5,.55) 0%, rgba(5,5,5,0) 14%, rgba(5,5,5,0) 66%, rgba(5,5,5,.9) 80%, #050505 100%); }
-      .meta { position: absolute; top: 22px; left: 0; right: 0; text-align: center; margin: 0;
-        font: 400 13px "JetBrains Mono", monospace; letter-spacing: .08em; color: #ffb347; text-shadow: 0 1px 8px #000; }
-      .text { position: absolute; left: 0; right: 0; bottom: 34px; display: flex; flex-direction: column; align-items: center; gap: 12px; color: #f4f1ea; text-align: center; }
-      .title { font: 900 58px/.95 "Archivo", sans-serif; letter-spacing: -.035em; margin: 0; text-shadow: 0 2px 20px rgba(0,0,0,.8); }
-      .kr { font: 700 25px/1.3 "HG Cosmos", "Noto Sans KR", sans-serif; margin: 0; }
-      .layers { font: 400 12px "JetBrains Mono", monospace; letter-spacing: .12em; color: rgba(244,241,234,.6); margin: 0; }
-    </style></head><body>
-      <div class="bg"></div><div class="shade"></div>
-      <p class="meta">SPECIMEN No. KG-0001 · 37°29'06.7"N 126°59'44.5"E</p>
-      <div class="text">
-        <h1 class="title">KIGLE Excavation</h1>
-        <p class="kr">기록되지 않은 원석이 발견되었다.</p>
-        <p class="layers">LAYER 01–08 · KIGLE &amp; GLOBAL TEAM</p>
-      </div>
-    </body></html>`, { waitUntil: "networkidle" });
-  // 가운데 정사각형(630×630) 밖으로 글자가 나가는지 확인
-  const overflow = await page.evaluate(() => [...document.querySelectorAll(".meta, .title, .kr, .layers")].map(el => {
-    const r = document.createRange(); r.selectNodeContents(el); const b = r.getBoundingClientRect();
-    return { text: el.textContent.slice(0, 20), left: Math.round(b.left), right: Math.round(b.right), safe: b.left >= 285 && b.right <= 915 };
-  }));
-  console.log(overflow);
+  await page.setContent(`<!doctype html><html><head>${HEAD}</head><body style="width:${width}px;height:${height}px">${body}</body></html>`, { waitUntil: "networkidle" });
   await page.evaluate(() => document.fonts.ready);
   await page.waitForTimeout(500);
-  await page.screenshot({ path: path.join(root, "og-image.jpg"), type: "jpeg", quality: 90 });
+  await page.screenshot({ path: path.join(root, file), type: "jpeg", quality: 90 });
   await page.close();
-  console.log("✓ og-image.jpg");
+  console.log(`✓ ${file}`);
 }
+
+// 대표(직사각형): 왼쪽에 제목, 오른쪽에 원석
+await compose("og-image.jpg", 1200, 630, `
+  <div class="bg" style="background: url('assets/og-bg.png') 78% 12% / cover no-repeat"></div>
+  <div class="shade" style="background: linear-gradient(90deg, rgba(5,5,5,.92) 0%, rgba(5,5,5,.75) 38%, rgba(5,5,5,0) 58%)"></div>
+  <div style="position:absolute; left:64px; top:0; bottom:0; width:520px; display:flex; flex-direction:column; justify-content:center; gap:22px">
+    <p class="meta">${TEXT.meta}<br>${TEXT.coord}</p>
+    <h1 class="title">KIGLE<br>Excavation</h1>
+    <p class="kr">${TEXT.kr}</p>
+    <p class="layers" style="padding-top:18px; border-top:1px solid rgba(244,241,234,.25); width:440px">${TEXT.layers}</p>
+  </div>`);
+
+// 정사각형: 원석 가운데, 아래에 제목
+await compose("og-image-square.jpg", 1200, 1200, `
+  <div class="bg" style="background: url('assets/og-bg-center.png') 50% 0% / cover no-repeat"></div>
+  <div class="shade" style="background: linear-gradient(180deg, rgba(5,5,5,.5) 0%, rgba(5,5,5,0) 10%, rgba(5,5,5,0) 62%, rgba(5,5,5,.92) 76%, #050505 100%)"></div>
+  <p class="meta" style="position:absolute; top:44px; left:0; right:0; text-align:center; font-size:22px; text-shadow:0 1px 10px #000">${TEXT.meta} · ${TEXT.coord}</p>
+  <div style="position:absolute; left:0; right:0; bottom:80px; display:flex; flex-direction:column; align-items:center; gap:24px; text-align:center">
+    <h1 class="title" style="font-size:118px; text-shadow:0 2px 24px rgba(0,0,0,.8)">KIGLE Excavation</h1>
+    <p class="kr" style="font-size:46px">${TEXT.kr}</p>
+    <p class="layers" style="font-size:20px; letter-spacing:.12em">${TEXT.layers}</p>
+  </div>`);
 
 /* ---------- 2. 파비콘 ---------- */
 {
