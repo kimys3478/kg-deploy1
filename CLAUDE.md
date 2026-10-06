@@ -25,7 +25,7 @@ git clone https://github.com/kimys3478/kg-deploy1.git AI_Week1
 | `my-first-worker/` | Hello World 연습 프로젝트 | GitHub에 없음. 바탕화면 백업 zip에만 있음 |
 | `_backup/` | 예전 백업 zip | 원래 노트북에만 있음 |
 
-**원래 노트북 기준 위치**: `C:\Users\kimys\OneDrive\문서\AI_Week1`
+**원래 노트북 기준 위치**: `C:\Users\kimys\Projects\AI_Week1` (2026-10-06 OneDrive에서 이전. OneDrive 쪽 `문서\AI_Week1`은 예전 사본이라 사용하지 않음)
 **전체 백업(2026-10-06)**: 원래 노트북 바탕화면 `AI_Week1-백업-2026-10-06.zip` (node_modules·_backup·.env 제외, 두 프로젝트의 git 기록 포함)
 
 ---
@@ -89,7 +89,7 @@ git clone https://github.com/kimys3478/kg-deploy1.git AI_Week1
 
 ## 5. 원래 노트북 환경 메모
 - Windows · PowerShell 5.1. Node 24 LTS, npm 12, Python 3.14, TypeScript, Playwright(전역), Git 설치됨
-- OneDrive 개인 계정 용량 초과(바탕화면 195GB가 백업 대상이던 문제) → OneDrive 동기화에 의존하지 말고 GitHub로 이동
+- OneDrive 개인 계정 용량 초과(바탕화면 195GB가 백업 대상이던 문제) → 프로젝트를 OneDrive 밖 `C:\Users\kimys\Projects\AI_Week1`로 옮김. 컴퓨터 간 이동은 GitHub로
 - `my-first-worker/`: create-cloudflare로 만든 Hello World Worker (자체 git 저장소, 미배포). 그 안의 CLAUDE.md는 `@AGENTS.md` — Workers 작업 전 최신 Cloudflare 문서 확인
 
 ## 6. 남은 일 (2026-10-06)
