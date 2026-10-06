@@ -1,0 +1,16 @@
+# 비밀 정보 — 절대 올리지 않음
+.env
+.env.*
+
+# 라이선스 확인 전까지 공개 저장소에 올리지 않는 폰트
+fonts/*.otf
+fonts/*.ttf
+fonts/*.woff
+fonts/*.woff2
+
+# 로컬 백업 · 이 컴퓨터 전용 설정
+_backup/
+.claude/
+**/.claude/
+
+node_modules/

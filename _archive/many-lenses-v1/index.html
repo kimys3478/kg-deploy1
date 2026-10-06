@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Many Lenses</title>
+  <meta name="description" content="Global Contents Project Manager · 콘텐츠 기획과 다국어 현지화">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@300;400;700&family=Noto+Sans+KR:wght@300;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- 상단 진행 바 -->
+  <div class="progress" aria-hidden="true"><span class="progress__dot"></span><span class="progress__fill"></span><span class="progress__dot progress__dot--end"></span></div>
+
+  <!-- 하단 고정 메뉴 -->
+  <nav class="menu" aria-label="메뉴">
+    <button class="menu__btn" type="button" aria-expanded="false" aria-controls="menu-panel">Menu</button>
+    <button class="menu__dots" type="button" aria-label="맨 위로">••</button>
+    <div class="menu__panel" id="menu-panel" hidden>
+      <a href="#intro">Intro</a>
+      <a href="#journey">Journey</a>
+      <a href="#process">Process</a>
+      <a href="#archive">Archive</a>
+      <a href="#outro">Contact</a>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- 1. HERO : 언어별 시력검사표 -->
+    <section class="hero" id="top">
+      <svg class="hero__rings" viewBox="0 0 1400 700" aria-hidden="true">
+        <circle cx="330" cy="200" r="300"/><circle cx="330" cy="200" r="250"/>
+        <circle cx="1100" cy="280" r="330"/><circle cx="1100" cy="280" r="280"/>
+        <circle cx="720" cy="190" r="170"/>
+      </svg>
+      <div class="chart">
+        <div class="chart__row chart__row--xl" data-hero-row>
+          <span class="mono chart__lab">EN-US</span>
+          <h1 class="chart__word" aria-label="Hello"><span>H</span><span>E</span><span>L</span><span>L</span><span>O</span></h1>
+          <span class="mono chart__lab">LV = 0,1</span>
+        </div>
+        <div class="chart__row chart__row--md" data-hero-row>
+          <span class="mono chart__lab">ES-ES</span>
+          <p class="chart__word"><span>H</span><span>O</span><span>L</span><span>A</span></p>
+          <span class="mono chart__lab">LV = 0,2</span>
+        </div>
+        <div class="chart__row chart__row--sm chart__row--rule" data-hero-row>
+          <span class="mono chart__lab">KO-KR</span>
+          <p class="chart__word chart__word--ko"><span>안</span><span>녕</span><span>하</span><span>세</span><span>요</span></p>
+          <span class="mono chart__lab">LV = 0,3</span>
+        </div>
+      </div>
+      <figure class="hero__photo" data-lens-swap>
+        <img src="assets/hero-0.png" alt="안경을 쓴 인물 사진. 마우스를 움직이면 안경이 바뀌어요" data-ph class="is-on">
+        <img src="assets/hero-1.png" alt="" data-ph>
+        <img src="assets/hero-2.png" alt="" data-ph>
+        <img src="assets/hero-3.png" alt="" data-ph>
+        <img src="assets/hero-4.png" alt="" data-ph>
+        <img src="assets/hero-5.png" alt="" data-ph>
+      </figure>
+      <p class="hero__lens mono tiny" aria-live="polite">Lens <b data-lens-code>EN</b> · move to switch</p>
+    </section>
+
+    <!-- 2. 문장 + 역할 -->
+    <section class="statement" id="intro">
+      <h2 class="big-text" data-reveal>
+        A good story deserves to be <span class="scramble" data-scramble>understood</span> everywhere —
+        not just <i class="glyph glyph--sun" aria-hidden="true"></i> translated, but made to feel
+        <span class="scramble" data-scramble>native</span> to every reader
+      </h2>
+      <div class="reason">
+        <svg class="reason__art" viewBox="0 0 360 140" aria-hidden="true">
+          <path d="M4 70 L170 30 M4 70 L170 110 M4 70 L250 70" />
+          <ellipse cx="4" cy="70" rx="4" ry="12"/>
+          <circle cx="250" cy="70" r="62" class="faint"/>
+          <path d="M282 10 Q340 70 282 130" class="thick"/>
+        </svg>
+        <div class="reason__txt">
+          <h3 class="mono label">The role</h3>
+          <p class="mono small">Global 팀 Contents 파트의 Project Manager예요. 콘텐츠를 기획하고, 그 콘텐츠가 여러 언어와 문화권에서 자연스럽게 읽히도록 현지화 과정을 이끌어요.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. 카드 6개 : 하루를 이루는 일들 -->
+    <section class="cards" aria-label="하는 일">
+      <article class="card"><img src="assets/card-1.png" alt="" data-ph><i class="card__eye" aria-hidden="true"></i><h3 class="mono">Planning</h3><span class="mono card__see">01 · Brief</span></article>
+      <article class="card"><img src="assets/card-2.png" alt="" data-ph><i class="card__eye" aria-hidden="true"></i><h3 class="mono">Source Text</h3><span class="mono card__see">02 · Script</span></article>
+      <article class="card"><img src="assets/card-3.png" alt="" data-ph><i class="card__eye" aria-hidden="true"></i><h3 class="mono">Glossary</h3><span class="mono card__see">03 · Terms</span></article>
+      <article class="card"><img src="assets/card-4.png" alt="" data-ph><i class="card__eye" aria-hidden="true"></i><h3 class="mono">Localization</h3><span class="mono card__see">04 · L10n</span></article>
+      <article class="card"><img src="assets/card-5.png" alt="" data-ph><i class="card__eye" aria-hidden="true"></i><h3 class="mono">Review</h3><span class="mono card__see">05 · LQA</span></article>
+      <article class="card"><img src="assets/card-6.png" alt="" data-ph><i class="card__eye" aria-hidden="true"></i><h3 class="mono">Launch</h3><span class="mono card__see">06 · Global</span></article>
+    </section>
+
+    <!-- 4. 다크 : 콘텐츠가 여행하는 길 -->
+    <section class="roots dark" id="journey">
+      <div class="roots__head">
+        <span class="mono label roots__meta">Source<br>1 language.</span>
+        <h2 class="title">One <i class="glyph glyph--ring" aria-hidden="true"></i> idea</h2>
+        <p class="mono small center">모든 콘텐츠는 하나의 언어, 하나의 아이디어에서 출발해요. 기획서와 초안, 수많은 리뷰를 거치며 조금씩 단단해지고, 그다음에 국경을 넘을 준비를 해요.</p>
+      </div>
+      <div class="roots__pin" data-pin>
+        <div class="roots__sticky">
+          <svg class="lens" viewBox="0 0 460 560" aria-hidden="true">
+            <line x1="230" y1="0" x2="230" y2="560" class="dash"/>
+            <path data-lens="0" d="M10 140 Q230 -40 450 140 L450 160 L270 150 L190 150 L10 160 Z"/>
+            <path data-lens="1" d="M60 290 Q230 250 400 290 Q430 320 400 330 Q230 300 60 330 Q30 320 60 290 Z"/>
+            <path data-lens="2" d="M60 360 L400 360 L400 380 Q230 460 60 380 Z"/>
+            <path data-lens="3" d="M10 420 L450 420 L440 440 Q230 640 20 440 Z"/>
+          </svg>
+          <div class="strip" data-strip>
+            <img src="assets/card-1.png" alt="" data-ph><img src="assets/strip-3.png" alt="" data-ph><img src="assets/card-2.png" alt="" data-ph>
+            <img src="assets/thing-3.png" alt="" data-ph><img src="assets/card-3.png" alt="" data-ph><img src="assets/thing-1.png" alt="" data-ph>
+            <img src="assets/card-4.png" alt="" data-ph><img src="assets/thing-4.png" alt="" data-ph><img src="assets/card-5.png" alt="" data-ph>
+            <img src="assets/project-1.png" alt="" data-ph><img src="assets/card-6.png" alt="" data-ph><img src="assets/thing-6.png" alt="" data-ph>
+          </div>
+          <p class="roots__quote" data-quote>
+            Every line passes <i class="glyph glyph--target"></i> through briefs, <i class="glyph glyph--half"></i> drafts
+            and reviews <i class="glyph glyph--tri"></i> before it
+            <span class="indent">is ready to <i class="glyph glyph--link"></i> travel</span>
+            <span class="indent">across <i class="glyph glyph--inf"></i> languages</span>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. 거대 자간 단어 -->
+    <section class="spread" data-spread>
+      <div class="spread__top">
+        <div class="spread__ring" aria-hidden="true"></div>
+        <img class="spread__img" src="assets/card-4.png" alt="" data-ph>
+      </div>
+      <div class="spread__meta mono label">Main job<br>Every day.</div>
+      <h2 class="spread__word" aria-label="Localize">
+        <span>L</span><span>O</span><span>C</span><span>A</span><span>L</span><span>I</span><span>Z</span><span>E</span>
+      </h2>
+      <p class="mono small center spread__txt">단어를 바꾸는 게 아니라 맥락을 옮기는 일이에요. 유머, 존댓말, 날짜와 단위, 화면에 들어가는 글자 수까지. 읽는 사람이 번역이라는 걸 눈치채지 못하게 만드는 게 목표예요.</p>
+    </section>
+
+    <!-- 6. 일하는 방식 : 고정 카드 스택 -->
+    <section class="skills dark" id="process">
+      <div class="skills__head">
+        <h2 class="title">How I work</h2>
+        <p class="mono small center">기획부터 출시까지, 콘텐츠가 모든 언어로 같은 날 같은 품질로 나가도록 세 단계를 챙겨요.</p>
+      </div>
+      <div class="skills__pin" data-skills>
+        <div class="skills__sticky">
+          <ul class="skills__index mono" aria-hidden="true">
+            <li>∙ Plan</li><li>∙∙ Localize</li><li>∙∙∙ Deliver</li>
+          </ul>
+          <ul class="skills__years mono" aria-hidden="true">
+            <li>Step 01</li><li>Step 02</li><li>Step 03</li>
+          </ul>
+          <div class="skills__stage">
+            <article class="skill">
+              <div class="skill__art"><svg viewBox="0 0 200 200"><rect x="40" y="50" width="120" height="100"/><path d="M40 80 L160 80 M80 50 L80 150 M120 50 L120 150"/><circle cx="60" cy="115" r="6"/><circle cx="100" cy="100" r="6"/><circle cx="140" cy="130" r="6"/></svg></div>
+              <h3 class="skill__name">Plan</h3>
+              <span class="mono label">Content · Schedule · Scope</span>
+              <p class="mono small">∙ 무엇을, 언제, 어떤 언어로 낼지 정해요. 콘텐츠 기획안을 만들고, 언어별 일정과 분량을 계산해 팀이 같은 그림을 보게 해요.</p>
+            </article>
+            <article class="skill">
+              <div class="skill__art"><svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="60"/><ellipse cx="100" cy="100" rx="26" ry="60"/><path d="M40 100 L160 100 M50 70 L150 70 M50 130 L150 130"/></svg></div>
+              <h3 class="skill__name">Localize</h3>
+              <span class="mono label">Glossary · Style guide · Vendors</span>
+              <p class="mono small">∙∙ 용어집과 스타일 가이드를 관리하고, 번역사·현지 팀과 맥락을 공유해요. 질문이 오기 전에 답을 준비해 두는 게 제 몫이에요.</p>
+            </article>
+            <article class="skill">
+              <div class="skill__art"><svg viewBox="0 0 200 200"><path d="M50 105 L85 140 L155 60"/><rect x="30" y="30" width="140" height="140"/></svg></div>
+              <h3 class="skill__name">Deliver</h3>
+              <span class="mono label">LQA · Release · Feedback</span>
+              <p class="mono small">∙∙∙ 언어 품질 검수(LQA)로 화면 위 결과물을 확인하고, 동시 출시를 맞춰요. 출시 후 현지 반응을 모아 다음 기획에 반영해요.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. 거대 타이포 -->
+    <section class="poster" data-poster>
+      <div class="poster__row poster__row--xl"><span class="mono chart__lab">1 : 1</span><h2 class="poster__word" aria-label="One story, many voices"><span>O</span><span>N</span><span>E</span></h2><span class="mono chart__lab">SRC</span></div>
+      <div class="poster__row poster__row--md"><span class="mono chart__lab">1 : N</span><p class="poster__word"><span>S</span><span>T</span><span>O</span><span>R</span><span>Y</span></p><span class="mono chart__lab">L10N</span></div>
+      <div class="poster__row poster__row--sm"><span class="mono chart__lab">N : ∞</span><p class="poster__word"><span>M</span><span>A</span><span>N</span><span>Y</span>&nbsp;<span>V</span><span>O</span><span>I</span><span>C</span><span>E</span><span>S</span></p><span class="mono chart__lab">GLOBAL</span></div>
+    </section>
+
+    <!-- 8. 선 드로잉 -->
+    <section class="draw" data-draw>
+      <div class="draw__note">
+        <svg class="draw__pen" viewBox="0 0 440 200" aria-hidden="true">
+          <path class="thick" d="M10 190 Q40 70 140 60"/>
+          <path d="M140 60 L360 60 M140 70 L360 70"/>
+          <rect x="360" y="40" width="40" height="40" rx="6"/>
+          <text x="190" y="96" class="mono svg-label">Context Length</text>
+        </svg>
+        <div><h3 class="mono label">Context first</h3><p class="mono small">원문이 어떤 장면에서, 누구에게, 어떤 톤으로 쓰였는지부터 정리해요. 맥락이 정확하면 번역은 훨씬 쉬워져요.</p></div>
+      </div>
+      <h2 class="big-text center" data-reveal>Content became easier<br>to <span class="scramble" data-scramble>share</span> across borders</h2>
+      <svg class="draw__art" viewBox="0 0 1400 520" aria-hidden="true">
+        <circle cx="330" cy="290" r="250"/><circle cx="330" cy="290" r="238"/>
+        <circle cx="1070" cy="290" r="250"/><circle cx="1070" cy="290" r="238"/>
+        <path d="M580 270 Q700 180 820 270"/><path d="M580 290 Q700 200 820 290"/>
+        <path d="M80 260 L30 260 L30 300 L80 300 M1320 260 L1370 260 L1370 300 L1320 300"/>
+        <path class="thick" d="M240 200 L340 400"/><path class="thick" d="M980 200 L1080 400"/>
+        <path d="M150 150 L230 120 L560 240 M1250 150 L1170 120 L840 240"/>
+      </svg>
+      <span class="mono tiny draw__cap">Source ↔ Target</span>
+    </section>
+
+    <!-- 9. 풀블리드 사진 : 퍼져나가는 씨앗 -->
+    <section class="field dark" data-field>
+      <img class="field__bg" src="assets/field.png" alt="" data-ph>
+      <div class="field__frame">
+        <h2 class="big-text center">Localization lets one story <i class="glyph glyph--sq"></i> travel,<br><i class="glyph glyph--dia"></i> land, and <i class="glyph glyph--bar"></i> feel at home anywhere <i class="glyph glyph--loupe"></i></h2>
+        <div class="field__detail">
+          <span class="mono tiny">One seed</span><span class="mono tiny">Many fields</span>
+          <img src="assets/field.png" alt="" data-ph>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10. 문장 -->
+    <section class="statement dark">
+      <h2 class="big-text center" data-reveal>
+        Over time, my work grew from managing <i class="glyph glyph--link"></i> words into
+        shaping how a story <i class="glyph glyph--star"></i> feels in each culture, becoming a
+        bridge <i class="glyph glyph--eq"></i> between teams <i class="glyph glyph--star"></i> and players worldwide <i class="glyph glyph--inf"></i>
+      </h2>
+    </section>
+
+    <!-- 11. 아카이브 : 작업 기록 -->
+    <section class="archive dark" id="archive" data-archive>
+      <div class="archive__sticky">
+        <h3 class="mono label archive__lab">The Archive</h3>
+        <div class="archive__portrait"><img src="assets/card-1.png" alt="" data-ph data-archive-portrait></div>
+        <div class="archive__center">
+          <svg class="archive__dial" viewBox="0 0 600 600" aria-hidden="true">
+            <circle cx="300" cy="300" r="290"/><circle cx="300" cy="300" r="200" class="faint"/>
+            <path d="M300 0 L300 600 M0 300 L600 300 M88 88 L512 512 M512 88 L88 512" class="dash"/>
+          </svg>
+          <img src="assets/card-1.png" alt="" data-ph data-archive-hero>
+        </div>
+        <div class="archive__text">
+          <span class="mono tiny archive__tag" data-archive-tag></span>
+          <h2 class="archive__title" data-archive-title>Project</h2>
+          <p class="mono small" data-archive-desc></p>
+        </div>
+        <ul class="archive__thumbs" data-archive-thumbs></ul>
+        <div class="archive__years mono tiny" data-archive-years></div>
+      </div>
+    </section>
+
+    <!-- 12. 마무리 : 반반 화면 + 언어별 인사 띠 -->
+    <section class="outro" id="outro" data-outro>
+      <div class="outro__half outro__half--dark">
+        <h2 class="outro__h">My work is no longer just<br>about <span class="scramble" data-scramble>translating</span> words</h2>
+      </div>
+      <div class="outro__half outro__half--light">
+        <h2 class="outro__h">It's about how a story<br><span class="outro__blur" data-outro-blur>feels everywhere</span></h2>
+      </div>
+      <div class="marquee" aria-hidden="true"><div class="marquee__track" data-marquee></div></div>
+      <footer class="outro__foot mono">
+        <span class="tiny">Global Team · Contents Part · Project Manager</span>
+        <strong class="tiny">KIM</strong>
+        <a class="tiny" href="mailto:hello@example.com">hello@example.com</a>
+      </footer>
+    </section>
+
+  </main>
+
+  <script src="main.js"></script>
+</body>
+</html>

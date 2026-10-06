@@ -1,0 +1,176 @@
+/* HG-코스모스: fonts 폴더에 파일을 넣으면 적용돼요. 파일이 없으면 Noto Sans KR로 보여요 */
+@font-face {
+  font-family: "HG Cosmos";
+  src: url("fonts/HG-Cosmos.otf") format("opentype");
+  font-display: swap;
+}
+
+:root {
+  --kr-display: "HG Cosmos", "Noto Sans KR", system-ui, sans-serif;
+  --bg: #050505;
+  --fg: #f4f1ea;
+  --mute: rgba(244, 241, 234, .55);
+  --line: rgba(244, 241, 234, .25);
+  --display: "Archivo", "Noto Sans KR", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, monospace;
+  --kr: "Noto Sans KR", system-ui, sans-serif;
+  --accent: #ffb347;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; background: var(--bg); color: var(--fg); }
+body { font-family: var(--display); -webkit-font-smoothing: antialiased; touch-action: none; }
+.mono { font-family: var(--mono); }
+.kr { font-family: var(--kr); }
+a { color: inherit; text-decoration: none; }
+
+/* ---------- 3D 씬 ---------- */
+#scene {
+  position: fixed; inset: 0; width: 100vw; height: 100vh; display: block;
+  z-index: 15;
+  /* 창 단계에서는 최종 렌더 창 영역만 보이도록 JS가 clip-path를 갱신 */
+  clip-path: inset(50% 50% 50% 50%);
+}
+
+/* ---------- 렌더 패스 창 ---------- */
+#windows { position: fixed; inset: 0; z-index: 10; pointer-events: none; }
+.win {
+  position: absolute;
+  display: flex; flex-direction: column;
+  background: #000;
+  border: 1px solid rgba(255,255,255,.18);
+  box-shadow: 0 24px 60px rgba(0,0,0,.6);
+  opacity: 0;
+  transform-origin: 50% 50%;
+  will-change: transform, opacity;
+}
+.win__bar {
+  flex: 0 0 22px;
+  display: flex; align-items: center; gap: 6px;
+  padding: 0 8px;
+  background: #151515;
+  border-bottom: 1px solid rgba(255,255,255,.12);
+  font: 400 10px var(--mono);
+  color: var(--mute);
+  white-space: nowrap; overflow: hidden;
+}
+.win__bar i { width: 7px; height: 7px; border-radius: 50%; background: #3a3a3a; flex: none; }
+.win__bar b { color: var(--fg); font-weight: 400; margin-left: 6px; }
+.win__bar em { margin-left: auto; font-style: normal; color: var(--accent); letter-spacing: .06em; }
+.win__body { position: relative; flex: 1; overflow: hidden; }
+.win__body canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.win__body::after { /* 스캔 라인 */
+  content: ""; position: absolute; left: 0; right: 0; height: 30%;
+  background: linear-gradient(transparent, rgba(255,255,255,.06), transparent);
+  animation: scan 3.2s linear infinite; pointer-events: none;
+}
+@keyframes scan { from { top: -30%; } to { top: 100%; } }
+.win__tag {
+  position: absolute; left: 8px; bottom: 6px;
+  font: 400 10px "JetBrains Mono", "HG Cosmos", "Noto Sans KR", monospace; color: rgba(255,255,255,.75); letter-spacing: .04em;
+}
+/* 최종 렌더 창은 몸통이 투명 — 뒤의 #scene이 보임 */
+.win--beauty { background: transparent; z-index: 20; }
+.win--beauty .win__body::after { display: none; }
+.win--beauty .win__corner { position: absolute; width: 14px; height: 14px; border: 0 solid #fff; }
+.win--beauty .c1 { left: 10px; top: 10px; border-left-width: 1px; border-top-width: 1px; }
+.win--beauty .c2 { right: 10px; top: 10px; border-right-width: 1px; border-top-width: 1px; }
+.win--beauty .c3 { left: 10px; bottom: 10px; border-left-width: 1px; border-bottom-width: 1px; }
+.win--beauty .c4 { right: 10px; bottom: 10px; border-right-width: 1px; border-bottom-width: 1px; }
+
+/* ---------- 인트로 ---------- */
+#intro { position: fixed; inset: 0; z-index: 5; display: grid; place-items: center; pointer-events: none; }
+#outline { position: absolute; width: min(36vw, 46vh); height: auto; top: 50%; left: 50%; transform: translate(-50%, -54%); overflow: visible; }
+#outline path { fill: none; stroke: rgba(255,255,255,.7); stroke-width: 1.4; }
+.intro__text { position: absolute; left: 0; right: 0; bottom: 14vh; text-align: center; padding: 0 16px; }
+/* 좌표 줄은 화면이 좁아도 한 줄 유지 */
+.intro__coord { font-size: clamp(9px, 1.45vw, 12px); letter-spacing: .02em; white-space: nowrap; color: var(--fg); min-height: 1.4em; }
+.intro__quote { margin-top: 14px; font: 700 17px var(--kr-display); color: var(--mute); min-height: 1.6em; }
+.caret { display: inline-block; width: 7px; height: 13px; background: var(--fg); margin-left: 3px; vertical-align: -2px; animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+
+/* ---------- 전설 ---------- */
+#legend {
+  position: fixed; left: 50%; top: 50%; z-index: 30; width: min(760px, 88vw);
+  transform: translate(-50%, -50%);
+  text-align: center; font-family: var(--kr-display); font-size: clamp(20px, 2.4vw, 32px); font-weight: 700; line-height: 1.5;
+  letter-spacing: -.02em; opacity: 0; pointer-events: none;
+  text-shadow: 0 2px 30px rgba(0,0,0,.8);
+}
+
+/* ---------- 섹션: 제목 링 ---------- */
+#sections { position: fixed; inset: 0; z-index: 25; pointer-events: none; opacity: 0; }
+/* 진갈색 땅: 돌 아래쪽 끝 바로 밑부터 화면 아래까지 어둡게 */
+.ground {
+  position: absolute; left: 0; right: 0; bottom: 0; top: var(--ground-top, 70%);
+  background: linear-gradient(to bottom, rgba(42, 20, 10, 0) 0, rgba(42, 20, 10, .78) 60px, rgba(26, 12, 6, .94) 100%);
+  transition: background .8s;
+}
+body.is-dawn .ground { background: linear-gradient(to bottom, rgba(120, 100, 105, 0), rgba(120, 100, 105, .35) 60px, rgba(90, 75, 80, .5)); }
+.ring {
+  position: absolute; left: 50%; bottom: var(--ring-bottom, 48px); width: 0; height: 0;
+  perspective: 1400px; perspective-origin: 50% -40%;
+}
+.ring__item {
+  position: absolute; left: 0; bottom: 0;
+  transform-style: preserve-3d;
+  font-weight: 900; text-transform: uppercase;
+  font-size: var(--ring-size, 110px); line-height: .82; letter-spacing: -.04em;
+  white-space: nowrap; text-align: center;
+  color: transparent; -webkit-text-stroke: 1.5px rgba(255,255,255,.55);
+  will-change: transform, opacity;
+}
+.ring__item small { display: block; font: 400 11px var(--mono); letter-spacing: .1em; -webkit-text-stroke: 0; color: var(--mute); margin-bottom: 10px; }
+.ring__item .ch { display: inline-block; overflow: hidden; vertical-align: bottom; }
+.ring__item .ch > span { display: inline-block; transform: translateY(0); transition: transform .9s cubic-bezier(.2,.8,.2,1); }
+.ring__item.is-active { color: var(--fg); -webkit-text-stroke: 0; }
+.ring__item.is-enter .ch > span { transform: translateY(105%); transition: none; }
+
+.info {
+  position: absolute; left: 32px; top: 50%; transform: translateY(-62%);
+  width: min(360px, 40vw);
+}
+.info__sub { font-size: 12px; letter-spacing: .1em; color: var(--accent); }
+.info__kind { font-size: 11px; color: var(--mute); margin-top: 6px; }
+.info__myth { white-space: pre-line; font-family: var(--kr-display); font-size: clamp(18px, 1.6vw, 22px); font-weight: 700; line-height: 1.5; margin-top: 18px; text-shadow: 0 2px 20px rgba(0,0,0,.6); }
+.info__team { font-family: var(--kr-display); font-size: 15px; color: rgba(244,241,234,.8); line-height: 1.6; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); text-shadow: 0 2px 16px rgba(0,0,0,.6); }
+.info > * { transition: opacity .5s, transform .6s cubic-bezier(.2,.8,.2,1); }
+.info.is-swap > * { opacity: 0; transform: translateY(10px); }
+
+/* ---------- 피날레 ---------- */
+#flash { position: fixed; inset: 0; z-index: 26; pointer-events: none; opacity: 0;
+  background: radial-gradient(circle at 50% 45%, rgba(255,255,255,.95), rgba(255,240,220,.5) 25%, transparent 60%); }
+#finale {
+  position: fixed; left: 50%; top: 32vh; z-index: 30; transform: translateX(-50%);
+  /* 좌상단 KIGLE 로고와 같은 글꼴 (한글이 오면 HG-코스모스) */
+  font-family: "Archivo", "HG Cosmos", "Noto Sans KR", sans-serif; font-size: clamp(30px, 3.8vw, 56px); font-weight: 900; letter-spacing: -.02em; text-align: center;
+  color: #1a1420; opacity: 0; pointer-events: none; white-space: nowrap;
+}
+
+/* ---------- HUD ---------- */
+.hud { position: fixed; left: 0; right: 0; z-index: 40; display: flex; justify-content: space-between; align-items: flex-start; padding: 20px 24px; pointer-events: none; transition: color .8s; }
+.hud a { pointer-events: auto; }
+.hud--top { top: 0; }
+.hud--bottom { bottom: 0; align-items: flex-end; font-size: 11px; letter-spacing: .06em; }
+.brand { font-weight: 900; font-size: 18px; letter-spacing: .02em; display: flex; align-items: baseline; gap: 10px; }
+.brand span { font-weight: 400; font-size: 10px; color: var(--mute); letter-spacing: .08em; text-transform: uppercase; }
+.hud__right { text-align: right; font-size: 10px; letter-spacing: .08em; line-height: 1.7; }
+.hud__step { color: var(--accent); }
+.hud__coord { min-height: 1.4em; }
+.hud__progress { display: grid; justify-items: end; gap: 8px; color: var(--mute); }
+.hud__progress i { display: block; width: 140px; height: 1px; background: var(--line); }
+.hud__progress b { display: block; height: 1px; width: 0; background: var(--fg); }
+body.is-dawn .hud { color: #1a1420; }
+body.is-dawn .brand span, body.is-dawn .hud__progress { color: rgba(26,20,32,.6); }
+
+@media (max-width: 760px) {
+  /* 좁은 화면: 설명 글을 돌 아래, 가운데로 */
+  .info { left: 16px; right: 16px; width: auto; top: var(--info-top, 55vh); height: var(--info-max, 30vh); transform: none; text-align: center; overflow: hidden;
+          display: flex; flex-direction: column; justify-content: center; }
+  .info__sub, .info__kind { display: none; }
+  .info__myth { font-size: 16px; margin-top: 0; }
+  .info__team { font-size: 13px; margin: 10px auto 0; padding-top: 10px; max-width: 280px; }
+  .hud { padding: 14px 16px; }
+  .brand span { display: none; }
+  .win__bar { font-size: 8px; }
+}

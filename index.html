@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KIGLE Excavation</title>
+  <meta name="description" content="각기 다른 결을 품은 하나의 원석이, 세계로 나아간다.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;800;900&family=JetBrains+Mono:wght@300;400;700&family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script type="importmap">
+    { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js" } }
+  </script>
+</head>
+<body>
+
+  <!-- 3D 씬 (최종 렌더 · 세계) -->
+  <canvas id="scene" aria-hidden="true"></canvas>
+
+  <!-- 렌더 패스 창 -->
+  <div id="windows" aria-hidden="true"></div>
+
+  <!-- 인트로: 발굴 기록 -->
+  <section id="intro" aria-label="인트로">
+    <svg id="outline" viewBox="0 0 400 600" preserveAspectRatio="xMidYMid meet"><path/></svg>
+    <div class="intro__text mono">
+      <p class="intro__coord"><span data-type="coord"></span><i class="caret"></i></p>
+      <p class="intro__quote"><span data-type="quote"></span></p>
+    </div>
+  </section>
+
+  <!-- 전설 한 줄 -->
+  <p id="legend" class="kr"></p>
+
+  <!-- 섹션: 제목 링 + 설명 -->
+  <section id="sections" aria-live="polite">
+    <div class="ground" aria-hidden="true"></div>
+    <div class="info">
+      <p class="info__sub mono"><span data-info="no"></span> — <span data-info="part"></span></p>
+      <p class="info__kind mono" data-info="kind"></p>
+      <p class="info__myth kr" data-info="myth"></p>
+      <p class="info__team kr" data-info="team"></p>
+    </div>
+    <div class="ring" id="ring"></div>
+  </section>
+
+  <!-- 피날레 -->
+  <div id="flash" aria-hidden="true"></div>
+  <p id="finale" class="kr"></p>
+
+  <!-- 고정 HUD -->
+  <header class="hud hud--top">
+    <a class="brand" href="#" aria-label="처음으로">KIGLE<span class="mono">Excavation Record</span></a>
+    <p class="mono hud__right"><span id="specimen"></span><br><span id="step" class="hud__step"></span></p>
+  </header>
+  <footer class="hud hud--bottom mono">
+    <p id="coord" class="hud__coord"></p>
+    <div class="hud__progress"><span id="hint">SCROLL TO EXCAVATE ↓</span><i><b id="bar"></b></i></div>
+  </footer>
+
+  <noscript><p style="color:#fff;padding:24px">이 페이지는 JavaScript와 WebGL이 필요해요.</p></noscript>
+  <script type="module" src="main.js"></script>
+</body>
+</html>
