@@ -29,6 +29,13 @@ guillaumecolombel.fr의 연출 구조(창 쌓기 · 렌더 패스 · 씬 전환 
 - 좁은 화면(폭 760px 이하): 돌을 작게 위로, 설명 글은 돌 아래 가운데, 그 아래 제목 링
 - 미리보기 패널의 화면 크기 흉내 기능은 값이 불안정함 → 실제 크기 iframe을 띄워 측정할 것
 
+## 공개 사이트 · 버전 관리 (GitHub)
+- 저장소: https://github.com/kimys3478/kg-deploy1 (공개, main 브랜치)
+- 공개 사이트(GitHub Pages): https://kimys3478.github.io/kg-deploy1/ — 링크 공유는 이 주소로 (OG 이미지·제목·설명·파비콘 적용)
+- 올리기: 이 노트북 전용 배포 키 `~/.ssh/kg-deploy1` (repo의 core.sshCommand에 설정됨). 커밋 메시지는 `.git/COMMIT_MSG_TMP` 파일로 넘기기 (PowerShell 여러 줄 인자 문제)
+- 올리지 않는 것: `.env`, `_backup/`, `.claude/` (.gitignore)
+- OG 이미지·파비콘 다시 만들기: 서버 켠 상태에서 `node scripts/build-share-assets.mjs` (배경 `assets/og-bg.png`, 아이콘 원본 `assets/favicon-src.png`)
+
 ## 공유 (claude.ai 비공개 아티팩트)
 - https://claude.ai/artifact/6zvKvihgQqzX7HdfZtt2Fd — 2026-10-03 버전. 같은 Claude 계정으로 어느 컴퓨터에서든 열람
 - 아티팩트는 자동으로 갱신되지 않음. 수정 후 다시 게시해야 함 (다른 대화에서는 위 URL을 `url`로 넘겨 업데이트)
