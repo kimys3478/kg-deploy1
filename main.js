@@ -321,7 +321,7 @@ const wins = PASSES.map((pass, i) => {
     <div class="win__bar"><i></i><i></i><i></i><b>${pass.file}</b><em>${pass.step}</em></div>
     <div class="win__body">
       ${pass.key === "beauty" ? '<span class="win__corner c1"></span><span class="win__corner c2"></span><span class="win__corner c3"></span><span class="win__corner c4"></span>' : "<canvas></canvas>"}
-      <span class="win__tag">${pass.key} · ${pass.note}</span>
+      <span class="win__tag">${pass.label || pass.key} · ${pass.note}</span>
     </div>`;
   (pass.key === "beauty" ? document.body : wrap).appendChild(el);
   const canvas = el.querySelector("canvas");

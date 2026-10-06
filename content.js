@@ -9,13 +9,14 @@ export const LEGEND = ""; // 비워 두면 전설 한 줄이 나오지 않아요
 export const FINALE = { coord: "COORDINATES: EVERYWHERE", line: "What's next?" };
 
 // 렌더 패스 창 6개 = 분석 단계
+//   key: 렌더 방식(코드용, 바꾸지 않기) / label: 창 왼쪽 아래 꼬리표 앞부분 (없으면 key가 보임)
 export const PASSES = [
   { key: "wireframe",  step: "SCAN",      file: "scan_01.log",              note: "3D 스캔 · 형태 파악" },
   { key: "grid",       step: "GRID",      file: "excavation_grid.map",      note: "발굴 좌표 격자" },
   { key: "normals",    step: "ANALYSIS",  file: "spectral_analysis.csv",    note: "성분 분석" },
   { key: "clay",       step: "RESTORE",   file: "restore_form.obj",         note: "원형 복원" },
   { key: "core",       step: "CORE",      file: "core_analysis.exe",        note: "내부 투시 · 여러 결 감지" },
-  { key: "beauty",     step: "EXCAVATED", file: "specimen_KG-0001.render",  note: "발굴 완료" },
+  { key: "beauty",     step: "EXCAVATED", file: "specimen_KG-0001.render",  note: "발굴 완료", label: "complete" },
 ];
 
 // 섹션 8개
