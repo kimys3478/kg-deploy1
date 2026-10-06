@@ -8,3 +8,10 @@ _backup/
 **/.claude/
 
 node_modules/
+
+# Cloudflare 배포용으로 매번 새로 만드는 폴더
+dist/
+.wrangler/
+
+# 별도 프로젝트 (자체 git 저장소) — KIGLE 저장소에는 올리지 않음
+my-first-worker/
